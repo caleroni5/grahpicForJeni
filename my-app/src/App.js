@@ -23,8 +23,12 @@ class App extends Component {
         };
     }
     componentDidMount() {
-        console.log(myData);
-        var seriesL = myData.map( line => ({
+        this.updateDataGraph(myData);
+    }
+
+    updateDataGraph = (data) => {
+        console.log(data);
+        const seriesL = data.map( line => ({
             lineWidth: 0.5,
             name: line.name,
             data: line.points.map( point => [Number(point.x), Number(point.y)] )
@@ -41,11 +45,25 @@ class App extends Component {
                 series: seriesL
             }
         })
-        // Подписаться на оповещения
-    }
+    };
+
     render() {
         return (
             <div>
+                <input
+                    type="file"
+                    id="input"
+                    onChange={e => {
+                        console.log(e.target.files);
+                        const fileReader = new FileReader();
+                        fileReader.onloadend = (e) => {
+                            const content = fileReader.result;
+                            console.log("obj", JSON.parse(content.toString()));
+                            this.updateDataGraph(JSON.parse(content.toString()))
+                        };
+                        fileReader.readAsText(e.target.files[0]);
+                    }}
+                />
                 <HighchartsReact
                     highcharts={Highcharts}
                     options={this.state.options}
