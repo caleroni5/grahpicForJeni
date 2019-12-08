@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
+import myData from './data.json';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+    constructor(props) {
+       super(props);
+       this.state = {
+           options: {
+               chart: {
+                   zoomType: 'x'
+               },
+               title: {
+                   text: 'My Graphic'
+               },
+               series: [{
+                   data: [[1,1], [2,2], [3,2]],
+                   lineWidth: 0.5
+               }]
+           }
+        };
+    }
+    componentDidMount() {
+        console.log(myData);
+        var seriesL = myData.map( line => ({
+            lineWidth: 0.5,
+            data: line.map( point => [Number(point.x), Number(point.y)] )
+        }) );
+        console.log(seriesL);
+        this.setState({
+            options: {
+                chart: {
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'My Graphic'
+                },
+                series: seriesL
+            }
+        })
+        // Подписаться на оповещения
+    }
+    render() {
+        return (
+            <div>
+                <HighchartsReact
+                    highcharts={Highcharts}
+                    options={this.state.options}
+                />
+            </div>
+        );
+    }
 }
 
 export default App;
