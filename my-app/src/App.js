@@ -26,7 +26,8 @@ class App extends Component {
         console.log(myData);
         var seriesL = myData.map( line => ({
             lineWidth: 0.5,
-            data: line.map( point => [Number(point.x), Number(point.y)] )
+            name: line.name,
+            data: line.points.map( point => [Number(point.x), Number(point.y)] )
         }) );
         console.log(seriesL);
         this.setState({
