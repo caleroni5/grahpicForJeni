@@ -17,7 +17,7 @@ class App extends Component {
                },
                series: [{
                    data: [[1,1], [2,2], [3,2]],
-                   lineWidth: 1
+                   lineWidth: 2
                }]
            }
         };
@@ -29,7 +29,7 @@ class App extends Component {
     updateDataGraph = (data) => {
         console.log(data);
         const seriesL = data.map( line => ({
-            lineWidth: 1,
+            lineWidth: 2,
             name: line.name,
             data: line.points.map( point => [Number(point.x), Number(point.y)] )
         }) );
